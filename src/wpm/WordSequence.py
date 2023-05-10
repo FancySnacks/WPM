@@ -35,10 +35,7 @@ class WordSequence:
     def generate_sequence(self, word_count: int):
         self._full_sequence = ' '.join(random.choices(self.words, k=word_count))
 
-    @classmethod
-    def load_words_from_file(cls, path: str) -> WordSequence:
+    def load_words_from_file(self, path: str):
         with open(path, "r") as file:
             words = file.readlines()
-            cls.words = words
-
-        return cls()
+            self.words = words

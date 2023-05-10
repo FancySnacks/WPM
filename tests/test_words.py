@@ -15,7 +15,8 @@ def temp_txt_file(tmp_path):
 
 
 def test_words_are_loaded_from_file_correctly(temp_txt_file):
-    sequence = WordSequence.load_words_from_file(temp_txt_file)
+    sequence = WordSequence()
+    sequence.load_words_from_file(temp_txt_file)
     words = sequence.words
 
     assert len(words) > 0
