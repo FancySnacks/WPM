@@ -18,9 +18,13 @@ class UserInputController:
         self.stdscr = stdscr
         self.stat_tracker = stats
         self.words = words
-        self.current_text: list[str] = []
+        self._current_text: list[str] = []
 
         self.active: bool = True
+
+    @property
+    def current_text(self) -> str:
+        return ' '.join(self._current_text)
 
     def inspect_input(self):
         while self.active:
@@ -34,8 +38,8 @@ class UserInputController:
                 if len(self.current_text) > 0:
                     self.remove_char()
             else:
-                self.current_text.append(key)
-                correct = self.is_char_correct(key, len(self.current_text)-1)
+                self._current_text.append(key)
+                correct = self.is_char_correct(key, len(self._current_text)-1)
                 self.increment_key_stats(correct)
 
     def is_char_correct(self, key: str, index: int) -> bool:
@@ -45,17 +49,15 @@ class UserInputController:
             return False
 
     def print_text(self):
-        self.stdscr.addstr(self.words.sequence, 3)
+        self.stdscr.addstr(0, 0, self.words.sequence, curses.color_pair(2))
 
-        for i, char in enumerate(self.current_text):
+        for i, char in enumerate(self._current_text):
             correct = self.is_char_correct(char, i)
             color = 3 if correct else 4
             self.stdscr.addstr(0, i, char, curses.color_pair(color))
 
-        self.print_accuracy()
-
-    def print_accuracy(self):
-        self.stdscr.addstr(1, 0, f'ACC: {self.stat_tracker.get_accuracy}%', curses.color_pair(1))
+        self.stat_tracker.print_accuracy()
+        self.stat_tracker.print_wpm(self.current_text)
 
     def refresh(self):
         self.stdscr.clear()
@@ -63,10 +65,10 @@ class UserInputController:
         self.stdscr.refresh()
 
     def remove_char(self):
-        self.current_text.pop()
+        self._current_text.pop()
 
     def increment_key_stats(self, correct):
-        self.stat_tracker.increment_stat('keystrokes', 1)
+        self.stat_tracker.accuracy.increment_stat('keystrokes', 1)
 
         if correct:
-            self.stat_tracker.increment_stat('successful_keystrokes', 1)
+            self.stat_tracker.accuracy.increment_stat('successful_keystrokes', 1)
