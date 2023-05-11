@@ -1,3 +1,5 @@
+"""Tracks user stats like accuracy and WPM"""
+
 from dataclasses import dataclass
 
 

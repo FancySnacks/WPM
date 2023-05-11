@@ -1,3 +1,5 @@
+"""Creates word sequences"""
+
 from __future__ import annotations
 
 import random

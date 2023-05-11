@@ -1,3 +1,5 @@
+"""Examines user's input"""
+
 from __future__ import annotations
 
 import curses
