@@ -11,6 +11,8 @@ def main(stdscr=None):
     if not stdscr:
         stdscr = curses.initscr()
 
+    curses.curs_set(0)
+
     ColorPalette.init_palettes()
 
     words = WordSequence()
