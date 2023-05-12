@@ -5,8 +5,6 @@ from __future__ import annotations
 from time import time
 from dataclasses import dataclass
 
-from wpm.ScreenPrinter import ScreenPrinter
-
 
 class StatTracker:
     def __init__(self, stdscr, accuracy_tracker: Accuracy, wpm_tracker: WPM):

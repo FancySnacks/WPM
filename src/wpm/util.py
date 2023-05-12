@@ -1,4 +1,4 @@
-from const import ESCAPE_KEY
+from wpm.const import ESCAPE_KEY
 
 
 def user_wants_to_exit(key: str) -> bool:
