@@ -1,3 +1,4 @@
+import curses
 from curses import wrapper
 
 from wpm.WordSequence import WordSequence
@@ -6,7 +7,10 @@ from wpm.StatTracker import StatTracker, WPM, Accuracy
 from wpm.const import ColorPalette
 
 
-def main(stdscr):
+def main(stdscr=None):
+    if not stdscr:
+        stdscr = curses.initscr()
+
     ColorPalette.init_palettes()
 
     words = WordSequence()

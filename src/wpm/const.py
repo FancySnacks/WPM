@@ -3,7 +3,7 @@ import curses
 
 class ColorPalette:
     colors = [
-    (curses.COLOR_GREEN, curses.COLOR_BLACK),
+    (curses.COLOR_GREEN, curses.COLOR_RED),
     (curses.COLOR_WHITE, curses.COLOR_BLACK),
     (curses.COLOR_GREEN, curses.COLOR_BLACK),
     (curses.COLOR_RED, curses.COLOR_BLACK)
@@ -11,8 +11,11 @@ class ColorPalette:
 
     @classmethod
     def init_palettes(cls):
+        curses.start_color()
+
         for index, palette in enumerate(cls.colors):
-            curses.init_pair(index + 1, *palette)
+            # NOTE: The index can't be 0 or less, it will throw an exception
+            curses.init_pair(index+1, *palette)
 
 
 ESCAPE_KEY = 27
