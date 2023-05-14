@@ -4,40 +4,46 @@ from __future__ import annotations
 
 import random
 
+from wpm.const import DEFAULT_WORDLIST_PATH
+
 
 class WordSequence:
-    def __init__(self):
-        self._full_sequence: str = ""
+    words = ["tomato",
+             "library",
+             "torch",
+             "dungeon",
+             "chips",
+             "shotgun",
+             "giraffe",
+             "coffee",
+             "railway",
+             "skeleton",
+             "book",
+             "zombie",
+             "dracula",
+             "soda",
+             "movie",
+             "pistol",
+             "bullets",
+             "ammo",
+             "python",
+              ]
 
-        self.words = ["tomato",
-                      "library",
-                      "torch",
-                      "dungeon",
-                      "chips",
-                      "shotgun",
-                      "giraffe",
-                      "coffee",
-                      "railway",
-                      "skeleton",
-                      "book",
-                      "zombie",
-                      "dracula",
-                      "soda",
-                      "movie",
-                      "pistol",
-                      "bullets",
-                      "ammo",
-                      "python",
-                      ]
+    @classmethod
+    def _create_sequence(cls, words: list[str], word_count: int) -> str:
+        if word_count > len(words):
+            word_count = len(words)
 
-    @property
-    def sequence(self) -> str:
-        return self._full_sequence
+        full_sequence: str = ' '.join(random.choices(words, k=word_count))
+        return full_sequence
 
-    def generate_sequence(self, word_count: int):
-        self._full_sequence = ' '.join(random.choices(self.words, k=word_count))
-
-    def load_words_from_file(self, path: str):
+    @classmethod
+    def generate_sequence_from_file(cls, path: str = DEFAULT_WORDLIST_PATH):
         with open(path, "r") as file:
             words = file.readlines()
-            self.words = words
+
+        return cls._create_sequence(words, 6)
+
+    @classmethod
+    def generate_sequence(cls):
+        return cls._create_sequence(cls.words, 6)

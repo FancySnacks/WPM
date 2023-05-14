@@ -1,5 +1,7 @@
 import curses
 
+import pathlib
+
 
 class ColorPalette:
     colors = [
@@ -18,9 +20,11 @@ class ColorPalette:
             curses.init_pair(index+1, *palette)
 
 
-ESCAPE_KEY = 27
 
-# MESSAGES
+ESCAPE_KEY = 27
 
 WELCOME_MSG = "Welcome to the speed typing test!\n" \
               "Press Any key to begin..."
+
+PATH = pathlib.Path(__file__).parent
+DEFAULT_WORDLIST_PATH = PATH.joinpath('words.txt')

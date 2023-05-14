@@ -15,8 +15,7 @@ def main(stdscr=None):
 
     ColorPalette.init_palettes()
 
-    words = WordSequence()
-    words.generate_sequence(6)
+    words = WordSequence.generate_sequence_from_file()
 
     user_controller = UserInputController(stdscr,
                                           words=words,

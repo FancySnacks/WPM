@@ -28,5 +28,7 @@ def test_calculate_accuracy_from_list_of_words(input, expected):
     assert stats.get_accuracy == expected
 
 
+@pytest.mark.skip(reason="TODO")
 def test_wpm_calculation(input, expected):
+    #TODO
     assert 1 == 0
