@@ -14,7 +14,7 @@ from wpm.util import is_backspace_key, user_wants_to_exit
 
 
 class UserInputController:
-    def __init__(self, stdscr: curses.window, words: WordSequence, stats: StatTracker):
+    def __init__(self, stdscr: curses.window, words: str, stats: StatTracker):
         self.stdscr = stdscr
         self.stat_tracker = stats
         self.words = words
@@ -43,13 +43,13 @@ class UserInputController:
                 self.increment_key_stats(correct)
 
     def is_char_correct(self, key: str, index: int) -> bool:
-        if key == self.words.sequence[index]:
+        if key == self.words[index]:
             return True
         else:
             return False
 
     def print_text(self):
-        self.stdscr.addstr(0, 0, self.words.sequence, curses.color_pair(2))
+        self.stdscr.addstr(0, 0, self.words, curses.color_pair(2))
 
         for i, char in enumerate(self._current_text):
             correct = self.is_char_correct(char, i)

@@ -35,6 +35,7 @@ class WordSequence:
             word_count = len(words)
 
         full_sequence: str = ' '.join(random.choices(words, k=word_count))
+        full_sequence = full_sequence.replace('\n', '')
         return full_sequence
 
     @classmethod
