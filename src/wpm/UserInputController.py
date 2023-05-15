@@ -27,20 +27,29 @@ class UserInputController:
         return ' '.join(self._current_text)
 
     def inspect_input(self):
+        self.stdscr.nodelay(True)
+        self.refresh()
+
         while self.active:
-            self.refresh()
+            self.stat_tracker.print_elapsed_time()
+            key = None
 
-            key = self.stdscr.getkey()
+            try:
+                key = self.stdscr.getkey()
+            except:
+                pass
 
-            if user_wants_to_exit(key):
-                return 1
-            elif is_backspace_key(key):
-                if len(self.current_text) > 0:
-                    self.remove_char()
-            else:
-                self._current_text.append(key)
-                correct = self.is_char_correct(key, len(self._current_text)-1)
-                self.increment_key_stats(correct)
+            if key:
+                self.refresh()
+                if user_wants_to_exit(key):
+                    return 1
+                elif is_backspace_key(key):
+                    if len(self.current_text) > 0:
+                        self.remove_char()
+                else:
+                    self._current_text.append(key)
+                    correct = self.is_char_correct(key, len(self._current_text)-1)
+                    self.increment_key_stats(correct)
 
     def is_char_correct(self, key: str, index: int) -> bool:
         if key == self.words[index]:

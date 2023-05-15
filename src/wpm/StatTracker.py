@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from time import time
+from time import time, strftime
 from dataclasses import dataclass
 
 
@@ -19,17 +19,29 @@ class StatTracker:
         self.timer.start_timer()
 
     def get_wpm(self, text: str) -> int:
-        return self.wpm.get_wpm(text, self.timer.elapsed_time)
+        return self.wpm.get_wpm(text, self.get_time_elapsed)
 
     @property
     def get_accuracy(self) -> int:
         return self.accuracy.get_accuracy
 
+    @property
+    def get_time_elapsed(self) -> int:
+        return int(self.timer.elapsed_time)
+
     def print_wpm(self, text: str):
         self.stdscr.addstr(1, 0, f'WPM: {self.get_wpm(text)}', self.palette)
 
     def print_accuracy(self):
-        self.stdscr.addstr(1, 9, f'ACC: {self.get_accuracy}%', self.palette)
+        self.stdscr.addstr(1, 10, f'ACC: {self.get_accuracy}%', self.palette)
+
+    def print_elapsed_time(self):
+        if self.get_time_elapsed >= 60:
+            formatted_time: str = f'{(self.get_time_elapsed / 60):02d}:{(self.get_time_elapsed % 60):02d}'
+        else:
+            formatted_time: str = f'00:{self.get_time_elapsed:02d}'
+
+        self.stdscr.addstr(1, 20, f'{formatted_time}', self.palette)
 
 
 @dataclass
@@ -63,6 +75,6 @@ class Timer:
 
 class WPM:
     @staticmethod
-    def get_wpm(text: str, elapsed_time: time) -> int:
+    def get_wpm(text: str, elapsed_time: int) -> int:
         wpm = len(text) / (elapsed_time / 60) / 5
         return int(wpm)

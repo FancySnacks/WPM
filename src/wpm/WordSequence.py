@@ -8,26 +8,26 @@ from wpm.const import DEFAULT_WORDLIST_PATH
 
 
 class WordSequence:
-    words = ["tomato",
-             "library",
-             "torch",
-             "dungeon",
-             "chips",
-             "shotgun",
-             "giraffe",
-             "coffee",
-             "railway",
-             "skeleton",
-             "book",
-             "zombie",
-             "dracula",
-             "soda",
-             "movie",
-             "pistol",
-             "bullets",
-             "ammo",
-             "python",
-              ]
+    backup_words = ["tomato",
+                    "library",
+                    "torch",
+                    "dungeon",
+                    "chips",
+                    "shotgun",
+                    "giraffe",
+                    "coffee",
+                    "railway",
+                    "skeleton",
+                    "book",
+                    "zombie",
+                    "dracula",
+                    "soda",
+                    "movie",
+                    "pistol",
+                    "bullets",
+                    "ammo",
+                    "python",
+                    ]
 
     @classmethod
     def _create_sequence(cls, words: list[str], word_count: int) -> str:
@@ -43,8 +43,8 @@ class WordSequence:
         with open(path, "r") as file:
             words = file.readlines()
 
-        return cls._create_sequence(words, 6)
+        return cls._create_sequence(words, 15)
 
     @classmethod
     def generate_sequence(cls):
-        return cls._create_sequence(cls.words, 6)
+        return cls._create_sequence(cls.backup_words, 15)
