@@ -7,14 +7,19 @@ from dataclasses import dataclass
 
 
 class StatTracker:
-    def __init__(self, stdscr, accuracy_tracker: Accuracy, wpm_tracker: WPM):
+
+    palette = 1
+
+    def __init__(self, stdscr, accuracy_tracker: Accuracy, timer: Timer, wpm_tracker: WPM):
         self.stdscr = stdscr
         self.accuracy = accuracy_tracker
+        self.timer = timer
         self.wpm = wpm_tracker
-        self.palette = 1
+
+        self.timer.start_timer()
 
     def get_wpm(self, text: str) -> int:
-        return self.wpm.get_wpm(text)
+        return self.wpm.get_wpm(text, self.timer.elapsed_time)
 
     @property
     def get_accuracy(self) -> int:
@@ -24,7 +29,7 @@ class StatTracker:
         self.stdscr.addstr(1, 0, f'WPM: {self.get_wpm(text)}', self.palette)
 
     def print_accuracy(self):
-        self.stdscr.addstr(1, 7, f'ACC: {self.get_accuracy}%', self.palette)
+        self.stdscr.addstr(1, 9, f'ACC: {self.get_accuracy}%', self.palette)
 
 
 @dataclass
@@ -44,11 +49,20 @@ class Accuracy:
         setattr(self, name, current_value + value)
 
 
-class WPM:
+class Timer:
     def __init__(self):
+        self.start_time = None
+
+    def start_timer(self):
         self.start_time = time()
 
-    def get_wpm(self, text: str) -> int:
-        end_time = max(time() - self.start_time, 1)
-        wpm = len(text) / (end_time / 60) / 5
+    @property
+    def elapsed_time(self) -> float:
+        return max(time() - self.start_time, 1)
+
+
+class WPM:
+    @staticmethod
+    def get_wpm(text: str, elapsed_time: time) -> int:
+        wpm = len(text) / (elapsed_time / 60) / 5
         return int(wpm)
