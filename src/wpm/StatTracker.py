@@ -21,10 +21,10 @@ class StatTracker:
         return self.accuracy.get_accuracy
 
     def print_wpm(self, text: str):
-        self.stdscr.addstr(1, 0, f'WPM: {self.get_wpm(text)} | ', self.palette)
+        self.stdscr.addstr(1, 0, f'WPM: {self.get_wpm(text)}', self.palette)
 
     def print_accuracy(self):
-        self.stdscr.addstr(1, 9, f'ACC: {self.get_accuracy}%', self.palette)
+        self.stdscr.addstr(1, 7, f'ACC: {self.get_accuracy}%', self.palette)
 
 
 @dataclass
@@ -51,6 +51,4 @@ class WPM:
     def get_wpm(self, text: str) -> int:
         end_time = max(time() - self.start_time, 1)
         wpm = len(text) / (end_time / 60) / 5
-        print(wpm)
-        print(int(wpm))
         return int(wpm)
