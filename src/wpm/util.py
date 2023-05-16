@@ -1,7 +1,7 @@
 from wpm.const import ESCAPE_KEY
 
 
-def user_wants_to_exit(key: str) -> bool:
+def user_wants_to_exit(key: str | bytes) -> bool:
     if ord(key) == ESCAPE_KEY:
         return True
     else:
