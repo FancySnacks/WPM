@@ -1,6 +1,6 @@
 import pytest
 
-from wpm.util import user_wants_to_exit
+from wpm.util import user_wants_to_exit, is_backspace_key
 from wpm.UserInputController import UserInputController
 
 
@@ -16,7 +16,23 @@ def test_is_input_char_valid(value, index, expected):
     assert char_input is True
 
 
-def test_user_wants_to_exit():
-    key_input = b'\x1b'
-    is_escape_key = user_wants_to_exit(key_input)
-    assert is_escape_key is True
+@pytest.mark.parametrize("value, expected", [
+    (b'\x1b', True),
+    (27, True),
+    ('esc', False)
+])
+def test_is_escape_key(value: str | bytes, expected: bool):
+    is_escape_key = user_wants_to_exit(value)
+    assert is_escape_key is expected
+
+
+@pytest.mark.parametrize("value, expected", [
+    ('\x7f', True),
+    ('\b', True),
+    ('KEY_BACKSPACE', True),
+    ('esc', False),
+    ('t', False),
+])
+def test_is_backspace_key(value: str, expected: bool):
+    is_backspace = is_backspace_key(value)
+    assert is_backspace is expected
